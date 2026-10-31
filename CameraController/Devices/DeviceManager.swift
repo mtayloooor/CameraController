@@ -27,16 +27,22 @@ final class DevicesManager: ObservableObject {
     }
 
     private init() {
-        let session = AVCaptureDevice.DiscoverySession(deviceTypes: [.externalUnknown, .builtInWideAngleCamera],
-                                                                mediaType: nil,
-                                                                position: .unspecified)
-        devices = session.devices.map({ (device) -> CaptureDevice in
-            CaptureDevice(avDevice: device)
-        })
-
-        if let deviceId = UserSettings.shared.lastSelectedDevice {
-            selectedDevice = devices.first { (device) -> Bool in
-                device.avDevice?.uniqueID == deviceId
+        // Enumerate devices on a background queue so the main thread isn't blocked
+        // by USB descriptor parsing (which can be slow for composite UVC devices).
+        // The popover opens immediately; devices appear a moment later via @Published.
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            let session = AVCaptureDevice.DiscoverySession(
+                deviceTypes: [.externalUnknown, .builtInWideAngleCamera],
+                mediaType: nil,
+                position: .unspecified)
+            let mapped = session.devices.map { CaptureDevice(avDevice: $0) }
+            let restoredId = UserSettings.shared.lastSelectedDevice
+            DispatchQueue.main.async {
+                guard let self = self else { return }
+                self.devices = mapped
+                if let deviceId = restoredId {
+                    self.selectedDevice = mapped.first { $0.avDevice?.uniqueID == deviceId }
+                }
             }
         }
     }

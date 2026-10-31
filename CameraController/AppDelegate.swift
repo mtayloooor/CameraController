@@ -22,7 +22,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     )
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        #if !DEBUG
         LetsMove.shared.moveToApplicationsFolderIfNecessary()
+        #endif
 
         if UserSettings.shared.checkForUpdatesOnStartup {
             checkForUpdates()

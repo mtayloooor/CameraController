@@ -20,6 +20,8 @@ final class CaptureDevice: Hashable, ObservableObject {
     init(avDevice: AVCaptureDevice) {
         self.avDevice = avDevice
         self.name = avDevice.localizedName
+        // Non-UVC cameras (FaceTime HD, Continuity, virtual cams) will throw here — that's
+        // expected; the device is then shown as "Unsupported Camera" when selected.
         self.uvcDevice = try? UVCDevice(device: avDevice)
         self.controller = DeviceController(properties: uvcDevice?.properties)
     }

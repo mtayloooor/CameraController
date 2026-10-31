@@ -29,12 +29,25 @@ class WindowManager: NSObject {
 
         let contentView = ContentView()
 
-        popover = NSPopover()
-        popover?.contentViewController = NSHostingController(rootView: contentView)
-        popover?.contentSize.width = UserSettings.shared.cameraPreviewSize.getWidth()
-        popover?.contentSize.height = 100
-        popover?.behavior = .transient
-        popover?.delegate = self
+        // Let the SwiftUI content (via `.fixedSize()` in ContentView) drive the popover
+        // size from the first frame. Setting an explicit initial `contentSize` smaller
+        // than the actual content used to cause two visible problems:
+        //   1. The popover would mount at the wrong size, then resize — and macOS
+        //      shifts the popover *upward* into the menu bar when growing.
+        //   2. Switching tabs (Basic ↔ Settings) wouldn't propagate the new height.
+        // On macOS 13+ `sizingOptions = .preferredContentSize` keeps the popover
+        // synced to SwiftUI layout changes for the lifetime of the popover.
+        let hosting = NSHostingController(rootView: contentView)
+        if #available(macOS 13.0, *) {
+            hosting.sizingOptions = .preferredContentSize
+        }
+
+        let popover = NSPopover()
+        popover.contentViewController = hosting
+        popover.behavior = .transient
+        popover.delegate = self
+        self.popover = popover
+
         DispatchQueue.main.async { [weak self] in
             self?.popover?.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
             self?.popover?.contentViewController?.view.window?.makeKey()

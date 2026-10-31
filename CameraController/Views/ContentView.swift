@@ -39,6 +39,10 @@ struct ContentView: View {
                              blendingMode: .behindWindow,
                              state: .active)
         )
+        // The app's colour palette (white tab labels, dark sliders/buttons) was designed
+        // for a dark appearance. Force dark so the popover renders correctly even when the
+        // system is in Light Mode, and so SwiftUI's default Button/Picker chrome stays legible.
+        .preferredColorScheme(.dark)
     }
 
     @ViewBuilder
