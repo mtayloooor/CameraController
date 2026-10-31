@@ -7,6 +7,22 @@ Control your cameras settings without using the software provided (or not) by th
 
 <br/>
 
+## About this fork
+
+This is a fork of [itaybre/CameraController](https://github.com/itaybre/CameraController). Changes from the original:
+
+- Sliders with an auto mode (Exposure, White Balance, Focus, Hue) can be moved while auto is on; moving one switches it to manual
+- Double-click a slider's handle to reset it to the camera's default
+- Right-click the menu bar icon to open the app, apply a profile or quit
+- Works with more cameras (e.g. Logitech C922), which previously showed empty settings tabs
+- Window sizes to fit the controls, with no scrolling
+- Always uses dark appearance, so it's readable in Light Mode
+- Opens faster: cameras are detected in the background
+
+Download this version from [Releases](https://github.com/mtayloooor/CameraController/releases/latest). The Homebrew install below gets the original app.
+
+<br/>
+
 <!-- shields -->
 <div align="center">
     <!-- downloads -->
