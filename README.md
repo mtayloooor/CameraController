@@ -23,7 +23,7 @@ This is a fork of [itaybre/CameraController](https://github.com/itaybre/CameraCo
 - More reliable camera detection on newer macOS
 - Fixed the "Move to Applications" prompt
 
-Download this version from [Releases](https://github.com/mtayloooor/CameraController/releases/latest). The Homebrew install below gets the original app.
+Download this version from [Releases](https://github.com/mtayloooor/CameraController/releases/latest): each release includes a signed and notarised app, ready to use. Unzip it and move `CameraController.app` to Applications. The Homebrew install below gets the original app.
 
 <br/>
 
