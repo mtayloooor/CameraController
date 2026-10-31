@@ -18,6 +18,10 @@ This is a fork of [itaybre/CameraController](https://github.com/itaybre/CameraCo
 - Window sizes to fit the controls, with no scrolling
 - Always uses dark appearance, so it's readable in Light Mode
 - Opens faster: cameras are detected in the background
+- Camera preview no longer freezes the window while it starts or switches cameras
+- Fixed Pan/Tilt sending broken values to the camera
+- More reliable camera detection on newer macOS
+- Fixed the "Move to Applications" prompt
 
 Download this version from [Releases](https://github.com/mtayloooor/CameraController/releases/latest). The Homebrew install below gets the original app.
 
